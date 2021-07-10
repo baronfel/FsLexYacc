@@ -20,8 +20,6 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 		<FsYaccToolPath Condition="'$(FsYaccToolPath)' == '' AND '$(MSBuildRuntimeType)'=='Core'">$(MSBuildThisFileDirectory)/fsyacc/netcoreapp3.1</FsYaccToolPath>
 		<FsYaccToolExe Condition="'$(FsYaccToolExe)' == '' AND '$(MSBuildRuntimeType)'=='Core'">fsyacc.dll</FsYaccToolExe>
 		<FsLexYaccToolRunner Condition="'$(UseFsLexYaccToolRunner)' != 'false' AND '$(FsLexYaccToolRunner)' == '' AND '$(MSBuildRuntimeType)'=='Core'">dotnet</FsLexYaccToolRunner>
-		<FsYaccOutputFolder Condition="'$(FsYaccOutputFolder)' == ''">$(IntermediateOutputPath)</FsYaccOutputFolder>
-		<FsLexOutputFolder Condition="'$(FsYaccOutputFolder)' == ''">$(IntermediateOutputPath)</FsLexOutputFolder>
 	</PropertyGroup>
 
 	<!-- Build FsLex files. -->
@@ -31,8 +29,8 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 		Outputs="@(FsLex->'$(FsLexOutputFolder)%(Filename).fs')"
 		Condition="'@(FsLex)'!=''"
     BeforeTargets="CoreCompile">
-
 		<PropertyGroup>
+			<FsLexOutputFolder Condition="'$(FsYaccOutputFolder)' == ''">$(IntermediateOutputPath)</FsLexOutputFolder>
 			<DestinationFileName>$(FsLexOutputFolder)%(FsLex.Filename).fs</DestinationFileName>
 			<Command>$(FsLexYaccToolRunner) &quot;$(FsLexToolPath)\$(FsLexToolExe)&quot; -o &quot;$(DestinationFileName)&quot;</Command>
 			<Command Condition="'%(FsLex.Module)' != ''">$(Command) --module %(FsLex.Module)</Command>
@@ -63,6 +61,7 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 		Condition="'@(FsYacc)'!=''"
     BeforeTargets="CoreCompile">
 		<PropertyGroup>
+			<FsYaccOutputFolder Condition="'$(FsYaccOutputFolder)' == ''">$(IntermediateOutputPath)</FsYaccOutputFolder>
 			<DestinationFileName>$(FsYaccOutputFolder)%(FsYacc.Filename).fs</DestinationFileName>
 			<Command>$(FsLexYaccToolRunner) &quot;$(FsYaccToolPath)\$(FsYaccToolExe)&quot; -o &quot;$(DestinationFileName)&quot;</Command>
 			<Command Condition="'%(FsYacc.Module)' != ''">$(Command) --module %(FsYacc.Module)</Command>

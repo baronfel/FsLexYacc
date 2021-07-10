@@ -5,15 +5,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <FsLexToolPath>..\..\src\FsLex\bin\$(Configuration)\netcoreapp3.1</FsLexToolPath>
     <FsYaccToolPath>..\..\src\FsYacc\bin\$(Configuration)\netcoreapp3.1</FsYaccToolPath>
-    <FsYaccOutputFolder>$(MSBuildThisFileDirectory)</FsYaccOutputFolder>
-    <FsLexOutputFolder>$(MSBuildThisFileDirectory)</FsLexOutputFolder>
   </PropertyGroup>
   <ItemGroup>
     <FsYacc Include="Parser.fsy" Module="Parser"/>
     <FsLex Include="Lexer.fsl" Module="Lexer" Unicode="true" />
-    <Compile Include="Parser.fsi" />
-    <Compile Include="Parser.fs" />
-    <Compile Include="Lexer.fs" />
+    <Compile Include="$(IntermediateOutputPath)Parser.fsi" />
+    <Compile Include="$(IntermediateOutputPath)Parser.fs" />
+    <Compile Include="$(IntermediateOutputPath)Lexer.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
